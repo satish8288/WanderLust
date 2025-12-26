@@ -8,14 +8,7 @@ const ejsMate = require("ejs-mate");
 const MONGO_URI = "mongodb://localhost:27017/wanderlust"; // Replace with your MongoDB URI
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressErr = require("./utils/ExpressErr.js");
-const Schema = require("./schema.js");
-//setting path
-app.use(express.static(path.join(__dirname, "/public")));
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
-app.engine("ejs", ejsMate);
+const { validateSchema } = require("./schema.js");
 
 // Connect to MongoDB
 main()
@@ -29,10 +22,29 @@ async function main() {
   await mongoose.connect(MONGO_URI);
 }
 
+//setting path
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+app.engine("ejs", ejsMate);
+app.use(express.static(path.join(__dirname, "/public")));
+
 // Creating root route
 app.get("/", (req, res) => {
   res.send("Hello from root route");
 });
+
+//Validate listing middleware
+const validateListings = (req, res, next) => {
+  let { error } = validateSchema.validate(req.body);
+  if (error) {
+    let errMessage = error.details.map((val) => val.message);
+    throw new ExpressErr(400, errMessage);
+  } else {
+    next();
+  }
+};
 
 // Index route
 app.get(
@@ -61,10 +73,8 @@ app.get(
 //Create Route
 app.post(
   "/listings",
+  validateListings,
   wrapAsync(async (req, res, next) => {
-    let result = Schema.validate(req.body);
-    console.log(result);
-
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
@@ -85,13 +95,11 @@ app.get(
 // Update route
 app.put(
   "/listings/:id",
+  validateListings,
   wrapAsync(async (req, res) => {
-    if (!req.body.listing) {
-      throw new ExpressErr(400, "Send valid data for listing.");
-    }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    res.redirect("/listings");
+    res.redirect(`/listings/${id}`);
   })
 );
 

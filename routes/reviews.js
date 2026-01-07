@@ -1,0 +1,47 @@
+const express = require("express");
+const router = express.Router({ mergeParams: true });
+const Listing = require("../models/listing.js");
+const Review = require("../models/reviews.js");
+const wrapAsync = require("../utils/wrapAsync.js");
+const ExpressErr = require("../utils/ExpressErr.js");
+const { reviewValidateSchema } = require("../schema.js");
+
+// review validate middleware
+const validateReviews = (req, res, next) => {
+  let { error } = reviewValidateSchema.validate(req.body);
+  if (error) {
+    let errMessage = error.details.map((val) => val.message);
+    throw new ExpressErr(400, errMessage);
+  } else {
+    next();
+  }
+};
+
+//Review route
+router.post(
+  "/",
+  validateReviews,
+  wrapAsync(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+    res.redirect(`/listings/${listing.id}`);
+    //console.log(listing);
+  })
+);
+
+//Review delete route
+router.delete(
+  "/:reviewId",
+  wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/${id}`);
+  })
+);
+
+module.exports = router;

@@ -5,10 +5,10 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressErr = require("./utils/ExpressErr.js");
-
 const allListings = require("./routes/listings");
 const allReviews = require("./routes/reviews");
-
+const session = require("express-session");
+const flash = require("connect-flash");
 const MONGO_URI = "mongodb://localhost:27017/wanderlust"; // Replace with your MongoDB URI
 // Connect to MongoDB
 main()
@@ -31,9 +31,28 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+const sessionOptions = {
+  secret: "mysecretCode",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    exprires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
+};
+
 //root route
 app.get("/", (req, res) => {
   res.send("Hello from root route");
+});
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  next();
 });
 
 //all listings route

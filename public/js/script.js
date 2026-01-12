@@ -22,3 +22,19 @@
     );
   });
 })();
+
+// toaster
+// const toastTrigger = document.getElementById("liveToastBtn");
+// const toastLiveExample = document.getElementById("liveToast");
+
+// if (toastTrigger) {
+//   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+//   toastTrigger.addEventListener("click", () => {
+//     toastBootstrap.show();
+//   });
+// }
+
+// toater 2
+document.querySelectorAll(".toast").forEach((t) => {
+  setTimeout(() => t.remove(), 3000);
+});

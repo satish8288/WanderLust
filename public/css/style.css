@@ -117,3 +117,50 @@ body {
   border: none;
   box-shadow: 0 4px 8px 0 #ccc;
 }
+
+/* flash.ejs */
+.danger-bg {
+  background-color: rgb(228, 89, 103) !important ;
+}
+
+/* .custom-alert {
+  background: rgba(255, 0, 25, 0.432);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #842029;
+  border-left: 5px solid #dc3545;
+} */
+
+.custom-alert {
+  background-color: #ffe5e5; /* light red */
+  color: #842029; /* dark red text */
+  border-left: 5px solid #dc3545;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.bg-red-100 {
+  background-color: #fdeaea;
+}
+.bg-red-300 {
+  background-color: #f19999;
+}
+.bg-red-500 {
+  background-color: #dc354681;
+}
+.text-red-500 {
+  color: #dc354681;
+}
+.bg-red-700 {
+  background-color: #b02a37;
+}
+.bg-red-900 {
+  background-color: #58151c;
+}
+
+.text-red-500 {
+  color: #dc3545;
+}
+.border-red-500 {
+  border-color: #dc3546 !important;
+}

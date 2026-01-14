@@ -1,37 +1,33 @@
+<!-- success -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <!-- success -->
   <% if (success.length > 0) { %>
   <div
     id="successToast"
     class="toast show text-bg-success"
     role="alert"
-    data-bs-delay="3000"
+    data-bs-delay="4000"
   >
     <!-- body -->
     <div class="toast-body"><%= success[0] %></div>
   </div>
   <% } %>
+</div>
 
-  <!-- <div class="toast-container position-fixed bottom-0 end-0 p-3">
+<!-- error -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <% if (error.length > 0) { %>
   <div
-    id="liveToast"
-    class="toast"
+    id="successToast"
+    class="toast show text-bg-danger"
     role="alert"
+    data-bs-delay="4000"
     aria-live="assertive"
     aria-atomic="true"
   >
-    <div class="toast-header">
-      <img src="..." class="rounded me-2" alt="..." />
-      <strong class="me-auto">Bootstrap</strong>
-      <small>11 mins ago</small>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="toast"
-        aria-label="Close"
-      ></button>
+    <!-- body -->
+    <div class="toast-body d-flex justify-content-start">
+      <p class="text-white mb-0"><%= error[0] %></p>
     </div>
-    <div class="toast-body"><%= success %></div>
   </div>
-</div> -->
+  <% } %>
 </div>

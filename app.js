@@ -9,8 +9,12 @@ const allListings = require("./routes/listings");
 const allReviews = require("./routes/reviews");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const User = require("./models/user.js");
+
 const MONGO_URI = "mongodb://localhost:27017/wanderlust"; // Replace with your MongoDB URI
-// Connect to MongoDB
+//MongoDB connection
 main()
   .then(() => {
     console.log("Connected to DB");
@@ -31,6 +35,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+//session options
 const sessionOptions = {
   secret: "mysecretCode",
   resave: false,
@@ -47,22 +52,45 @@ app.get("/", (req, res) => {
   res.send("Hello from root route");
 });
 
+//session creation
 app.use(session(sessionOptions));
+
+//flash messages
 app.use(flash());
 
+//authentication
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//Storing flash messages to local
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
   next();
 });
 
+// app.get("/demoUser", async (req, res) => {
+//   let demoUser1 = new User({
+//     email: "demoUser01@gmail.com",
+//     username: "user01",
+//   });
+
+//   let registerUser = await User.register(demoUser1, "hello");
+//   res.send(registerUser);
+// });
 //all listings route
 app.use("/listings", allListings);
 app.use("/listings/:id/reviews", allReviews);
 
+//error middleware for routes
 app.use((req, res, next) => {
   next(new ExpressErr(404, "Page Not Found."));
 });
 
+//Middleware all errors
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong." } = err;
   res.status(statusCode).render("error.ejs", { message, statusCode });

@@ -5,8 +5,9 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressErr = require("./utils/ExpressErr.js");
-const allListings = require("./routes/listings");
-const allReviews = require("./routes/reviews");
+const ListingsRouter = require("./routes/listings");
+const ReviewsRouter = require("./routes/reviews");
+const UserRouter = require("./routes/user.js");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -73,18 +74,17 @@ app.use((req, res, next) => {
 });
 
 // app.get("/demoUser", async (req, res) => {
-//   let demoUser1 = new User({
-//     email: "demoUser01@gmail.com",
-//     username: "user01",
+//   let demoUser02 = new User({
+//     email: "demoUser02@gmail.com",
+//     username: "user02",
 //   });
-
-//   let registerUser = await User.register(demoUser1, "hello");
+//   let registerUser = await User.register(demoUser02, "helloUser02"); //pbkdf2 Hashing algorithm used
 //   res.send(registerUser);
 // });
 //all listings route
-app.use("/listings", allListings);
-app.use("/listings/:id/reviews", allReviews);
-
+app.use("/listings", ListingsRouter);
+app.use("/listings/:id/reviews", ReviewsRouter);
+app.use("/", UserRouter);
 //error middleware for routes
 app.use((req, res, next) => {
   next(new ExpressErr(404, "Page Not Found."));

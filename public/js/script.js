@@ -36,5 +36,5 @@
 
 // toater 2
 document.querySelectorAll(".toast").forEach((t) => {
-  setTimeout(() => t.remove(), 4000);
+  setTimeout(() => t.remove(), 5000);
 });

@@ -59,6 +59,12 @@ app.use(session(sessionOptions));
 //flash messages
 app.use(flash());
 
+//clear flash
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
+
 //authentication
 app.use(passport.initialize());
 app.use(passport.session());
@@ -70,6 +76,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user;
   next();
 });
 
@@ -85,6 +92,7 @@ app.use((req, res, next) => {
 app.use("/listings", ListingsRouter);
 app.use("/listings/:id/reviews", ReviewsRouter);
 app.use("/", UserRouter);
+
 //error middleware for routes
 app.use((req, res, next) => {
   next(new ExpressErr(404, "Page Not Found."));

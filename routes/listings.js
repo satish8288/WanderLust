@@ -2,20 +2,13 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressErr = require("../utils/ExpressErr.js");
-const { listingValidateSchema } = require("../schema.js");
-const { isLoggedIn } = require("../middleware.js");
+
+const {
+  validateListings,
+  isLoggedIn,
+  isListingOwner,
+} = require("../middleware.js");
 // const flash = require("connect-flash");
-// listing validate middleware
-const validateListings = (req, res, next) => {
-  let { error } = listingValidateSchema.validate(req.body);
-  if (error) {
-    let errMessage = error.details.map((val) => val.message);
-    throw new ExpressErr(400, errMessage);
-  } else {
-    next();
-  }
-};
 
 // Index route
 router.get(
@@ -37,7 +30,9 @@ router.get(
   "/:id",
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id)
+      .populate("reviews")
+      .populate("owner");
     if (!listing) {
       req.flash("error", "Listing you requested for does not exist!");
       return res.redirect("/listings");
@@ -53,6 +48,7 @@ router.post(
   validateListings,
   wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
     await newListing.save();
     req.flash("success", "New Listing Created!");
     res.redirect("/listings");
@@ -75,6 +71,7 @@ router.get(
 router.put(
   "/:id",
   isLoggedIn,
+  isListingOwner,
   validateListings,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
@@ -88,6 +85,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isListingOwner,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndDelete(id);

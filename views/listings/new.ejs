@@ -9,6 +9,7 @@
           class="needs-validation"
           method="POST"
           action="/listings"
+          enctype="multipart/form-data"
         >
           <div class="mb-3">
             <label for="title" class="form-label m-0">Title</label>
@@ -36,11 +37,21 @@
               Please provide a small description.
             </div>
           </div>
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="image" class="form-label m-0">Image Link</label>
             <input
               class="form-control"
               type="text"
+              placeholder="enter img url"
+              name="listing[image]"
+            />
+            <div class="valid-feedback">Enter Image link if have 😊</div>
+          </div> -->
+          <div class="mb-3">
+            <label for="image" class="form-label m-0">Upload Image</label>
+            <input
+              class="form-control"
+              type="file"
               placeholder="enter img url"
               name="listing[image]"
             />

@@ -3,7 +3,7 @@ const { reviewValidateSchema } = require("./schema.js");
 const ExpressErr = require("./utils/ExpressErr.js");
 const Listing = require("./models/listing");
 const Review = require("./models/reviews.js");
-
+const cloudinary = require("./config/cloudinary.js");
 // listing validate middleware
 module.exports.validateListings = (req, res, next) => {
   let { error } = listingValidateSchema.validate(req.body);
@@ -60,5 +60,23 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     req.flash("error", "You are not author of this review.");
     return res.redirect(`/listings/${id}`);
   }
+  next();
+};
+
+//
+module.exports.handleImageUpload = async (req, res, next) => {
+  const result = await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream({ folder: "wanderlust_DEV" }, (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      })
+      .end(req.file.buffer);
+  });
+  // res.send(req.file);
+  req.image = {
+    imageUrl: result.secure_url,
+    filename: result.public_id,
+  };
   next();
 };

@@ -10,7 +10,6 @@ const {
 } = require("../middleware.js");
 
 const upload = require("../config/multer.js");
-const cloudinary = require("../config/cloudinary.js");
 
 // Index route and Create Route
 router
@@ -55,6 +54,8 @@ router
   .put(
     isLoggedIn,
     isListingOwner,
+    upload.single("listing[image]"),
+    wrapAsync(handleImageUpload),
     validateListings,
     wrapAsync(listingControllers.updateListing)
   )

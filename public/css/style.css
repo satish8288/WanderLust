@@ -123,6 +123,13 @@ body {
   background-color: rgb(228, 89, 103) !important ;
 }
 
+/* map */
+
+#map {
+  height: 400px;
+  width: 90vh;
+}
+
 /* .custom-alert {
   background: rgba(255, 0, 25, 0.432);
   backdrop-filter: blur(6px);

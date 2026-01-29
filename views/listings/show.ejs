@@ -42,7 +42,7 @@
       </div>
     </div>
     <% if(currentUser) { %>
-    <div class="ReviewForm col-lg-10 offset-lg-1 col-md-8 offset-md-2">
+    <div class="ReviewForm col-lg-10 offset-lg-1 col-md-8 offset-md-2 mb-2">
       <hr />
       <h1>Leave a Review</h1>
       <form
@@ -126,12 +126,10 @@
         <button class="btn btn-outline-dark mt-3">Submit</button>
       </form>
     </div>
-    <% } %>
-    <div class="AllReviews col-lg-10 offset-lg-1 col-md-8 offset-md-2">
+    <% } %> <% if(listing.reviews.length){ %>
+    <div class="AllReviews col-lg-10 offset-lg-1 col-md-8 offset-md-2 mb-2">
       <hr />
-      <% if(listing.reviews.length){ %>
-      <h1 class="text-center mb-5">All Reviews</h1>
-      <% } %>
+      <h3 class="text-center mb-4">All Reviews</h3>
       <div class="row">
         <% listing.reviews.forEach(review => { %>
         <div class="card col-5 ms-5 mb-3 shadow">
@@ -153,6 +151,22 @@
         </div>
         <% }) %>
       </div>
+      <hr />
+    </div>
+    <% } %>
+    <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mb-5">
+      <h3 class="text-center mb-3">Where you'll be</h3>
+      <div id="map"></div>
     </div>
   </div>
 </section>
+
+<!-- <script>
+  const listingData = <%- JSON.stringify({
+    lat: listing.geometry.lat,
+    lng: listing.geometry.lng,
+    location: listing.location
+  }) %>;
+</script> -->
+
+<script src="/js/map.js"></script>

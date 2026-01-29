@@ -1,5 +1,5 @@
 const Listing = require("../models/listing");
-
+const cloudinary = require("../config/cloudinary.js");
 //index route
 module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
@@ -30,17 +30,42 @@ module.exports.showListings = async (req, res) => {
   res.render("listings/show.ejs", { listing });
 };
 
-//create route
-module.exports.createListing = async (req, res, next) => {
-  const newListing = new Listing(req.body.listing);
-  newListing.owner = req.user._id;
-  console.log(req.image);
+module.exports.createListing = async (req, res) => {
+  try {
+    const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
 
-  newListing.image = req.image;
-  await newListing.save();
-  req.flash("success", "New Listing Created!");
-  res.redirect("/listings");
-  // console.log(newListing);
+    const { location } = req.body.listing;
+
+    const encodedLocation = encodeURIComponent(location);
+
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodedLocation}`
+    );
+
+    const data = await response.json();
+
+    if (!data || data.length === 0) {
+      req.flash("error", "Invalid address");
+      return res.redirect("/listings/new");
+    }
+
+    newListing.geometry = {
+      lat: Number(data[0].lat),
+      lng: Number(data[0].lon),
+    };
+
+    newListing.image = req.image;
+
+    await newListing.save();
+
+    req.flash("success", "New Listing Created!");
+    res.redirect("/listings");
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "Something went wrong");
+    res.redirect("/listings/new");
+  }
 };
 
 //edit route
@@ -53,7 +78,15 @@ module.exports.editListing = async (req, res) => {
 //update route
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  console.log(listing.image);
+  if (typeof req.image !== "undefined") {
+    await cloudinary.uploader.destroy(listing.image.filename);
+    listing.image = req.image;
+    console.log(listing.image);
+
+    await listing.save();
+  }
   req.flash("success", "Listing Updated!");
   res.redirect(`/listings/${id}`);
 };

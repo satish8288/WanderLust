@@ -9,6 +9,7 @@
           method="POST"
           action="/listings/<%= listing.id %>?_method=PUT"
           class="needs-validation"
+          enctype="multipart/form-data"
         >
           <div class="mb-3">
             <label for="title" class="form-label m-0">Title</label>
@@ -27,7 +28,7 @@
             <textarea
               class="form-control"
               rows="3"
-              name="listing[description] "
+              name="listing[description]"
               required
             >
 <%= listing.description %>
@@ -38,15 +39,22 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="image" class="form-label m-0">Image Link</label>
+            <h3>Previous Image</h3>
+            <img
+              class="h-25 w-25 rounded-2"
+              src="<%=listing.image.imageUrl%>"
+              alt=""
+            />
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label m-0">Image</label>
             <input
               class="form-control"
-              type="text"
-              value="<%= listing.image %>"
+              type="file"
               name="listing[image]"
               required
             />
-            <div class="invalid-feedback">Please enter a Image link.</div>
+            <div class="invalid-feedback">Upload new image</div>
           </div>
           <div class="row">
             <div class="mb-3 col-md-4">

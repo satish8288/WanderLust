@@ -124,12 +124,32 @@ body {
 }
 
 /* map */
-
 #map {
-  height: 400px;
-  width: 90vh;
+  height: 350px;
+  border-radius: 12px;
 }
 
+.marker {
+  /* background-color: red; */
+  color: red
+  border: 2px solid white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s; /* Hover effect smooth karne ke liye */
+}
+
+.marker:hover {
+  pointer-events: auto !important;
+  z-index: 999;
+  transform: scale(1.2); /* Hover par marker thoda bada hoga */
+}
+
+.maplibregl-popup {
+  z-index: 3000; /* Popup ko hamesha top par rakhne ke liye */
+}
+
+.custom-marker {
+  display: block; /* Ensure it's not hidden */
+}
 /* .custom-alert {
   background: rgba(255, 0, 25, 0.432);
   backdrop-filter: blur(6px);

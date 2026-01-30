@@ -156,17 +156,18 @@
     <% } %>
     <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 mb-5">
       <h3 class="text-center mb-3">Where you'll be</h3>
-      <div id="map"></div>
+      <div id="map" class="rounded-0"></div>
     </div>
   </div>
 </section>
+<div id="map"></div>
 
-<!-- <script>
-  const listingData = <%- JSON.stringify({
+<script>
+  window.listingData = <%- JSON.stringify({
     lat: listing.geometry.lat,
     lng: listing.geometry.lng,
-    location: listing.location
+    address: listing.location
   }) %>;
-</script> -->
+</script>
 
 <script src="/js/map.js"></script>

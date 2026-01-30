@@ -24,16 +24,15 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/rating.css" />
-    <!-- Leaflet CSS -->
+
+    <!-- MapLibre CSS -->
     <link
+      href="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.css"
       rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-    <!-- Leaflet JS -->
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      defer
-    ></script>
+
+    <!-- MapLibre JS -->
+    <script src="https://unpkg.com/maplibre-gl@3.6.1/dist/maplibre-gl.js"></script>
   </head>
   <body>
     <%- include("../includes/navbar.ejs") %>
@@ -48,6 +47,7 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+
     <script src="/js/script.js"></script>
   </body>
 </html>

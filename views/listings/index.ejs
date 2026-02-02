@@ -1,7 +1,65 @@
 <% layout("/layouts/boilerplate") -%>
-<body>
-  <h3>All listings</h3>
+<div class="d-flex align-items-center gap-3">
+  <div class="slider-container">
+    <button class="arrow left" aria-label="Scroll left">‹</button>
 
+    <div class="slider">
+      <div class="item">
+        <i class="fa-solid fa-fire"></i>
+        <p>Trending</p>
+      </div>
+      <div class="item">
+        <i class="fa-solid fa-bed"></i>
+        <p>House</p>
+      </div>
+      <div class="item">
+        <i class="fa-brands fa-fort-awesome"></i>
+        <p>Castles</p>
+      </div>
+      <div class="item">
+        <i class="fa-solid fa-cow"></i>
+        <p>Farms</p>
+      </div>
+      <div class="item">
+        <i class="fa-regular fa-snowflake"></i>
+        <p>Arctic</p>
+      </div>
+      <div class="item">
+        <i class="fa-solid fa-mountain-city"></i>
+        <p>Iconic Cities</p>
+      </div>
+      <div class="item">
+        <i class="fa-solid fa-person-swimming"></i>
+        <p>Amazing Pool</p>
+      </div>
+      <div class="item">
+        <i class="fa-solid fa-mountain"></i>
+        <p>Mountains</p>
+      </div>
+      <div class="item">
+        <i class="fa-solid fa-mountain"></i>
+        <p>Mountains</p>
+      </div>
+      <div class="item">
+        <i class="fa-solid fa-mountain"></i>
+        <p>Mountains</p>
+      </div>
+    </div>
+
+    <button class="arrow right" aria-label="Scroll right">›</button>
+  </div>
+  <div class="form-check form-switch">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      role="switch"
+      id="switchCheckDefault"
+    />
+    <label class="form-check-label" for="switchCheckDefault"
+      >Default switch checkbox input</label
+    >
+  </div>
+  </div>
   <div
     class="row row-cols-xl-4 row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 justify-content-center align-items-center"
   >
@@ -16,7 +74,7 @@
         <div class="card-img-overlay"></div>
         <div class="card-body p-0">
           <p class="card-text mb-0 fw-bold"><%=listing.title%></p>
-          <p class="card-text">&#8377; <%=listing.price%> / night</p>
+          <p class="card-text">&#8377; <%=listing.price%> / night <span id="gstInfo"> + 18% GST</span></p>
           <!--.toLocaleString("en-IN")    -->
         </div>
       </div>
@@ -28,4 +86,5 @@
     <a href="/listings/<%=listing.id%>"><li><%=listing.title%></li></a>
     <% } %>
   </ul> -->
+  <script src="/js/filter.js"></script>
 </body>

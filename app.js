@@ -49,10 +49,10 @@ const sessionOptions = {
   },
 };
 
-//root route
-app.get("/", (req, res) => {
-  res.send("Hello from root route");
-});
+// //root route
+// app.get("/", (req, res) => {
+//   res.send("Hello from root route");
+// });
 
 //session creation
 app.use(session(sessionOptions));

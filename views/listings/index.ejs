@@ -48,17 +48,20 @@
 
     <button class="arrow right" aria-label="Scroll right">›</button>
   </div>
-  <div class="form-check form-switch">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      role="switch"
-      id="switchCheckDefault"
-    />
-    <label class="form-check-label" for="switchCheckDefault"
-      >Default switch checkbox input</label
-    >
+  <div class="gst-toggle ms-auto">
+    <div class="form-check form-switch d-flex align-items-center gap-2">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="switchCheckDefault"
+      />
+      <label class="form-check-label" for="switchCheckDefault">
+        Display total after tax
+      </label>
+    </div>
   </div>
+  
   </div>
   <div
     class="row row-cols-xl-4 row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 justify-content-center align-items-center"
@@ -74,7 +77,7 @@
         <div class="card-img-overlay"></div>
         <div class="card-body p-0">
           <p class="card-text mb-0 fw-bold"><%=listing.title%></p>
-          <p class="card-text">&#8377; <%=listing.price%> / night <span id="gstInfo"> + 18% GST</span></p>
+          <p class="card-text">&#8377; <%=listing.price%> / night <span class="gstInfo"> + 18% GST</span></p>
           <!--.toLocaleString("en-IN")    -->
         </div>
       </div>

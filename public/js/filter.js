@@ -14,12 +14,13 @@ rightBtn.addEventListener("click", () => {
 
 // switch
 const switchBtn = document.querySelector("#switchCheckDefault");
-const gstInfo = document.querySelector("#gstInfo");
-console.dir(gstInfo);
-
 switchBtn.addEventListener("click", () => {
-  gstInfo.style.display =
-    gstInfo.style.display === "none" || gstInfo.style.display === ""
-      ? "inline"
-      : "none";
+  const gstInfo = document.querySelectorAll(".gstInfo");
+  for (const info of gstInfo) {
+    if (info.style.display != "inline") {
+      info.style.display = "inline";
+    } else {
+      info.style.display = "none";
+    }
+  }
 });

@@ -14,7 +14,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/user.js");
-const MONGO_URI = "mongodb://localhost:27017/wanderlust"; // Replace with your MongoDB URI
+// const MONGO_URI = "mongodb://localhost:27017/wanderlust"; // Replace with your MongoDB URI
+const dbUrl = process.env.ATLASDB_URL;
 //MongoDB connection
 main()
   .then(() => {
@@ -25,7 +26,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URI);
+  await mongoose.connect(dbUrl);
 }
 
 //setting path
@@ -78,6 +79,8 @@ app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.currentUser = req.user;
+  console.log();
+
   next();
 });
 

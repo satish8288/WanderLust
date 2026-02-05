@@ -3,7 +3,7 @@
 >
   <div class="container-fluid">
     <!-- Brand -->
-    <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/listings">
       <i class="fa-regular fa-compass"></i>
     </a>
 
@@ -56,6 +56,11 @@
           <a class="nav-link fw-semibold" href="/login">Login</a>
         </li>
         <% } %> <% if(currentUser){ %>
+        <li class="nav-item">
+          <a class="nav-link no-underline" href="/listings/new"
+            >Airbnb your home</a
+          >
+        </li>
         <li class="nav-item">
           <a class="nav-link fw-semibold" href="/logout">Logout</a>
         </li>

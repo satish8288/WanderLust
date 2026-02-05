@@ -382,3 +382,8 @@ body {
   transform: scale(0.95);
   border-color: #ff385c;
 }
+
+/* stars */
+.review-stars .starability-result {
+  font-size: 13px;
+}

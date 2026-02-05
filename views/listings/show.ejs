@@ -134,19 +134,27 @@
         <% listing.reviews.forEach(review => { %>
         <div class="card col-5 ms-5 mb-3 shadow">
           <div class="card-body">
-            <h5 class="card-title"><%= review.author.username %></h5>
-            <p
-              class="starability-result"
-              data-rating="<%= review.rating %>"
-            ></p>
-
-            <p class="card-text"><%= review.comment %></p>
-            <form
-              method="post"
-              action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-            >
-              <button class="btn btn-dark mt-3">Delete</button>
-            </form>
+            <div class="d-flex">
+              <div>
+                <h5 class="card-title"><%= review.author.username %></h5>
+                <p
+                  class="starability-result"
+                  data-rating="<%= review.rating %>"
+                ></p>
+              </div>
+              <div class="ms-auto">
+                <form
+                  method="post"
+                  action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                >
+                  <% console.log(currentUser); %> <% if (currentUser &&
+                  currentUser._id.equals(review.author._id)) {%>
+                  <button class="btn btn-dark mt-3">Delete</button>
+                  <% } %>
+                </form>
+              </div>
+            </div>
+            <p class="card-text mt-2"><%= review.comment %></p>
           </div>
         </div>
         <% }) %>
